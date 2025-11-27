@@ -1,3 +1,5 @@
+## GitLab to EKS CI/CD Workflow for NordHealth
+
 This is a project repository that shows the detailed process of creating a End-to-End CI/CD workflow.
 
 The workflow starts when a developer pushed code to a version control system, in this case GitLab, and then, the code is then built into a container image to be pushed to a container registry. 
