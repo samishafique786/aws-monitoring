@@ -1,25 +1,35 @@
-from flask import Flask
-from prometheus_client import Histogram, generate_latest, CONTENT_TYPE_LATEST
+from flask import Flask, Response
+from prometheus_client import Counter, Histogram, generate_latest, CONTENT_TYPE_LATEST
 import time
 
 app = Flask(__name__)
 
-# Create a histogram metric to track request duration
-REQUEST_TIME = Histogram(
-    'hello_world_request_seconds',
-    'Time spent serving hello world requests'
+# Prometheus metrics
+REQUEST_LATENCY = Histogram(
+    'hello_world_request_latency_seconds', 
+    'Time spent processing hello world request'
+)
+REQUEST_COUNT = Counter(
+    'hello_world_requests_total', 
+    'Total number of hello world requests'
 )
 
-@app.route("/")
-def hello():
-    start = time.time()
-    response = "hello world"
-    REQUEST_TIME.observe(time.time() - start)
-    return response
+@app.route('/')
+def hello_world():
+    start_time = time.time()
+    REQUEST_COUNT.inc()
+    
+    # Simulate processing (optional)
+    response_text = "hello world"
+    
+    elapsed = time.time() - start_time
+    REQUEST_LATENCY.observe(elapsed)
+    
+    return response_text
 
-@app.route("/metrics")
+@app.route('/metrics')
 def metrics():
-    return generate_latest(), 200, {'Content-Type': CONTENT_TYPE_LATEST}
+    return Response(generate_latest(), mimetype=CONTENT_TYPE_LATEST)
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8000)
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
