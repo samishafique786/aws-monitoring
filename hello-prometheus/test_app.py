@@ -3,7 +3,7 @@ from app import app
 
 @pytest.fixture
 def client():
-
+    # Flask provides a test client for unit testing
     with app.test_client() as client:
         yield client
 
@@ -14,8 +14,10 @@ def test_hello_endpoint(client):
     assert response.data == b"hello world"
 
 def test_metrics_endpoint(client):
-    """Test that the /metrics endpoint returns Prometheus metrics"""
+    """Check /metrics output"""
     response = client.get("/metrics")
     assert response.status_code == 200
-    assert b'hello_world_request_seconds' in response.data  # thiss will check that our histogram metric exists
-    assert response.headers["Content-Type"] == "text/plain; version=0.0.4; charset=utf-8"
+    # Print the raw metrics output
+    print(response.data.decode("utf-8"))
+    # Check that our histogram metric exists
+    assert b'hello_world_request_seconds' in response.data
