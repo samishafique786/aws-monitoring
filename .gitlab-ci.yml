@@ -15,7 +15,7 @@ build_image:
   services:
     - docker:20.10.16-dind
   script:
-    - docker build -t $IMAGE_NAME:$CI_COMMIT_SHA .
+    - ddocker build -f hello-prometheus/Dockerfile -t $IMAGE_NAME:$CI_COMMIT_SHA .
   only:
     - main
 
