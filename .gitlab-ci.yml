@@ -28,6 +28,10 @@ build_and_push:
 
     # Build Docker image with commit SHA tag
     - docker build -t $IMAGE_NAME:$CI_COMMIT_SHA hello-prometheus/
+    - docker push $IMAGE_NAME:$CI_COMMIT_SHA
+
+  only:
+    - main
 
     # Tag as latest
     - docker tag $IMAGE_NAME:$CI_COMMIT_SHA $IMAGE_NAME:latest
