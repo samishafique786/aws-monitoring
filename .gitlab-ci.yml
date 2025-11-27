@@ -5,7 +5,7 @@ stages:
 variables:
   IMAGE_NAME: registry.gitlab.com/samishafique786/aws-ci-cd
 
-# Run unit tests
+# 1️⃣ Run unit tests first
 test:
   stage: test
   image: python:3.9-slim
@@ -16,7 +16,7 @@ test:
   only:
     - main
 
-# Build and push Docker image
+# 2️⃣ Build and push Docker image in the same job
 build_and_push:
   stage: build_and_push
   image: docker:20.10.16
@@ -25,12 +25,11 @@ build_and_push:
   script:
     # Login to GitLab Container Registry
     - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin registry.gitlab.com
+
     # Build Docker image with commit SHA tag
     - docker build -t $IMAGE_NAME:$CI_COMMIT_SHA hello-prometheus/
+
     # Tag as latest
     - docker tag $IMAGE_NAME:$CI_COMMIT_SHA $IMAGE_NAME:latest
+
     # Push both tags
-    - docker push $IMAGE_NAME:$CI_COMMIT_SHA
-    - docker push $IMAGE_NAME:latest
-  only:
-    - main
