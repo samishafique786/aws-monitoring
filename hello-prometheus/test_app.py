@@ -20,4 +20,4 @@ def test_metrics_endpoint(client):
     # Print the raw metrics output
     print(response.data.decode("utf-8"))
     # Check that our histogram metric exists
-    assert b'hello_world_request_seconds' in response.data
+    assert b'hello_world_request_latency_seconds' in response.data
