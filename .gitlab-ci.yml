@@ -5,7 +5,7 @@ stages:
 variables:
   IMAGE_NAME: registry.gitlab.com/samishafique786/aws-ci-cd
 
-# 1️⃣ Run unit tests first
+# 1 Run unit tests first
 test:
   stage: test
   image: python:3.9-slim
@@ -16,7 +16,7 @@ test:
   only:
     - main
 
-# 2️⃣ Build and push Docker image in the same job
+# 2 Build and push Docker image in the same job
 build_and_push:
   stage: build_and_push
   image: docker:20.10.16
