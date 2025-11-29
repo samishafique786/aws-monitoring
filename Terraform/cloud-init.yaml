@@ -6,9 +6,7 @@ packages:
 
 write_files:
   - path: /etc/prometheus/prometheus.yml
-    content: |
-      ${prometheus_config}
-    owner: prometheus:prometheus
+    content: ${jsonencode(prometheus_config)}
     permissions: '0644'
 
 runcmd:
@@ -26,7 +24,7 @@ runcmd:
   - chown prometheus:prometheus /usr/local/bin/promtool
   - cp -r prometheus-2.45.0.linux-amd64/consoles /etc/prometheus
   - cp -r prometheus-2.45.0.linux-amd64/console_libraries /etc/prometheus
-  # prometheus.yml is already written by write_files
+  - chown prometheus:prometheus /etc/prometheus/prometheus.yml
   - chown -R prometheus:prometheus /etc/prometheus/consoles
   - chown -R prometheus:prometheus /etc/prometheus/console_libraries
   
@@ -53,3 +51,14 @@ runcmd:
   - systemctl daemon-reload
   - systemctl start prometheus
   - systemctl enable prometheus
+
+  # Install Grafana
+  - apt-get install -y apt-transport-https software-properties-common wget
+  - mkdir -p /etc/apt/keyrings/
+  - wget -q -O - https://apt.grafana.com/gpg.key | gpg --dearmor | tee /etc/apt/keyrings/grafana.gpg > /dev/null
+  - echo "deb [signed-by=/etc/apt/keyrings/grafana.gpg] https://apt.grafana.com stable main" | tee /etc/apt/sources.list.d/grafana.list
+  - apt-get update
+  - apt-get install -y grafana
+  - systemctl daemon-reload
+  - systemctl start grafana-server
+  - systemctl enable grafana-server
