@@ -87,8 +87,11 @@ terraform apply
 ```
 
 ### Step 2: Configure Kubernetes Access
-Update your local `kubeconfig` to interact with the cluster:
+Update your local `kubeconfig` to interact with the cluster: (Assuming that you have aws cli installed and configured already with "aws configure")
 ```bash
 aws eks update-kubeconfig --region eu-north-1 --name <cluster-name>
+kubectl get nodes
 ```
+It should authenticate with the cluster and then, should give you worker nodes. 
+
 
