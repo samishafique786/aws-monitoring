@@ -12,7 +12,8 @@ All the process is automated using GitLab CI/CD pipelines.
 
 ## Architecture Diagram
 
-https://gitlab.com/samishafique786/aws-ci-cd/-/blob/main/nordhealth1.0.jpg?ref_type=heads
+![Nord Health](https://gitlab.com/samishafique786/aws-ci-cd/-/raw/main/nordhealth1.0.jpg?ref_type=heads)
+
 
 ## Project Structure
 
