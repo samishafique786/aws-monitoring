@@ -7,6 +7,7 @@ variables:
   IMAGE_NAME: registry.gitlab.com/samishafique786/aws-ci-cd
   DEPLOYMENT_FILE: eks-terraform/k8s/deployment.yaml
   K8S_NAMESPACE: default
+  AWS_DEFAULT_REGION: eu-north-1
 
 before_script:
   - echo "$CI_JOB_TOKEN" | docker login -u "$CI_REGISTRY_USER" --password-stdin $CI_REGISTRY
