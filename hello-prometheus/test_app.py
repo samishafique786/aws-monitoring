@@ -11,7 +11,7 @@ def test_hello_endpoint(client):
     """Test that the / endpoint returns 'hello world'"""
     response = client.get("/")
     assert response.status_code == 200
-    assert response.data == b"hello world sami"
+    assert response.data == b"hello world version 2"
 
 def test_metrics_endpoint(client):
     """Check /metrics output"""
