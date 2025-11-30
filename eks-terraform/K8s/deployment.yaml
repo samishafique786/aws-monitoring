@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nord-app-deployment
+  labels:
+    app: nord-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nord-app
+  template:
+    metadata:
+      labels:
+        app: nord-app
+    spec:
+      containers:
+      - name: nord-app-container
+        image: registry.gitlab.com/samishafique786/aws-ci-cd:7625051511a78c0b5eb6e247c26c4162f51f91e1
+        ports:
+        - containerPort: 8000
