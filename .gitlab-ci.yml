@@ -34,15 +34,12 @@ build_and_push:
     # Login to GitLab Container Registry
     - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin registry.gitlab.com
 
-    # Build Docker image with commit SHA tag
-    - docker build -t $IMAGE_NAME:$CI_COMMIT_SHA hello-prometheus/
-    - docker push $IMAGE_NAME:$CI_COMMIT_SHA
+
+    - docker build -t $IMAGE_NAME:latest hello-prometheus/
+    - docker push $IMAGE_NAME:latest
 
   only:
     - main
-
-    # Tag as latest
-    - docker tag $IMAGE_NAME:$CI_COMMIT_SHA $IMAGE_NAME:latest
 
 deploy:
   stage: deploy
@@ -59,8 +56,9 @@ deploy:
 
     - echo "Updating deployment YAML with new image tag..."
 
-    - kubectl set image deployment/nord-app-deployment nord-app-container=$IMAGE_NAME:$CI_COMMIT_SHORT_SHA -n $K8S_NAMESPACE
+    - kubectl set image deployment/nord-app-deployment nord-app-container=$IMAGE_NAME:latest -n $K8S_NAMESPACE
     - kubectl rollout status deployment/nord-app-deployment -n $K8S_NAMESPACE
+    - kubectl get pods
 
 
 
