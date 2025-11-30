@@ -53,4 +53,42 @@ Provisions a standalone EC2 instance (`t3.small`) to monitor the infrastructure.
 
 ---
 
-  
+## CI/CD Pipeline (`.gitlab-ci.yml`)
+
+The pipeline automates the software delivery lifecycle:
+
+1. **Test**: Runs unit tests (`test_app.py`).
+2.  **Build**: Creates a Docker image from `hello-prometheus/`.
+3.  **Push**: Pushes the Docker image to the GitLab Container Registry. (it is public for now, but if it was private, I would have created an Access token in GitLab with the registry read permission, and stored it in my EKS Cluster as a "Secret" for my namespace. I have done that in previous projects)
+4.  **Deploy**: Deploys the application to the EKS cluster using `kubectl`. 
+
+
+## My Workflow (In what sequence I built everything)
+
+### Prerequisites
+- Created AWS Account & Credentials configured (new IAM user with Admin permission, and then created secret access key)
+- Terraform installed. (wrote code for EKS first, then the server.)
+- GitLab Account. (already had one)
+
+### Step 1: Deploy Infrastructure
+```bash
+
+# Deploy EKS Cluster
+cd ../eks-terraform
+terraform init
+terraform apply
+```
+
+```bash
+# Deploy Monitoring Server
+cd monitoring-terraform
+terraform init
+terraform apply
+```
+
+### Step 2: Configure Kubernetes Access
+Update your local `kubeconfig` to interact with the cluster:
+```bash
+aws eks update-kubeconfig --region eu-north-1 --name <cluster-name>
+```
+
