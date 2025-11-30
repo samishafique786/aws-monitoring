@@ -57,7 +57,7 @@ deploy:
 
     - echo "Updating deployment YAML with new image tag..."
 
-    - kubectl set image deployment/nord-app-deployment nord-app-container=$IMAGE_NAME:latest -n $K8S_NAMESPACE
+    - kubectl set image deployment/nord-app-deployment nord-app-container=$IMAGE_NAME:$IMAGE_TAG -n $K8S_NAMESPACE
     - kubectl rollout status deployment/nord-app-deployment -n $K8S_NAMESPACE
     - kubectl get pods
 
