@@ -45,7 +45,7 @@ build_and_push:
 
 deploy:
   stage: deploy
-  image: bitnami/kubectl:1.27.3-debian-11-r0
+  image: bitnami/kubectl:1.27.3
   script:
     - apt-get update && apt-get install -y awscli sed
     - aws version
