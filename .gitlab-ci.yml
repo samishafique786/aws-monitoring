@@ -46,12 +46,11 @@ build_and_push:
 
 deploy:
   stage: deploy
-  image: ubuntu:22.04
+  image: amazon/aws-cli:2.13.8
   before_script:
-    - export DEBIAN_FRONTEND=noninteractive
-    - apt-get update && DEBIAN_FRONTEND=noninteractive TZ=UTC apt-get install -y awscli curl unzip sed
-    - curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+    - curl -LO "https://dl.k8s.io/release/v1.26.10/bin/linux/amd64/kubectl"
     - chmod +x kubectl && mv kubectl /usr/local/bin/
+    
   script:
     - aws eks update-kubeconfig --name $EKS_CLUSTER_NAME --region $AWS_DEFAULT_REGION
     - kubectl get nodes
