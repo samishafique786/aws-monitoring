@@ -10,6 +10,10 @@ Once the container image and built and pushed, the image is then pulled into an 
 
 All the process is automated using GitLab CI/CD pipelines. 
 
+## Architecture Diagram
+
+https://gitlab.com/samishafique786/aws-ci-cd/-/blob/main/nordhealth1.0.jpg?ref_type=heads
+
 ## Project Structure
 
 - **`eks-terraform/`**: Terraform configuration to provision the AWS EKS cluster.
