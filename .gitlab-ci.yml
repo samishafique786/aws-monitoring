@@ -8,6 +8,7 @@ variables:
   DEPLOYMENT_FILE: eks-terraform/k8s/deployment.yaml
   K8S_NAMESPACE: default
   AWS_DEFAULT_REGION: eu-north-1
+  IMAGE_TAG: $CI_COMMIT_SHORT_SHA
 
 before_script:
   - echo "$CI_JOB_TOKEN" | docker login -u "$CI_REGISTRY_USER" --password-stdin $CI_REGISTRY
@@ -35,8 +36,8 @@ build_and_push:
     - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin registry.gitlab.com
 
 
-    - docker build -t $IMAGE_NAME:latest hello-prometheus/
-    - docker push $IMAGE_NAME:latest
+    - docker build -t $IMAGE_NAME:$IMAGE_TAG hello-prometheus/
+    - docker push $IMAGE_NAME:$IMAGE_TAG
 
   only:
     - main
