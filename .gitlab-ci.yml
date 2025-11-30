@@ -55,11 +55,12 @@ deploy:
     - aws eks update-kubeconfig --name $EKS_CLUSTER_NAME --region $AWS_DEFAULT_REGION
     - kubectl get nodes
     - kubectl get pods
+
+
     - echo "Updating deployment YAML with new image tag..."
 
-    - kubectl set image deployment/nord-app-deployment \
-      nord-app-container=$IMAGE_NAME:$CI_COMMIT_SHORT_SHA \
-      -n $K8S_NAMESPACE
+    - kubectl set image deployment/nord-app-deployment nord-app-container=$IMAGE_NAME:$CI_COMMIT_SHORT_SHA -n $K8S_NAMESPACE
+    - kubectl rollout status deployment/nord-app-deployment -n $K8S_NAMESPACE
 
 
 
