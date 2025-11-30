@@ -10,8 +10,17 @@ Once the container image and built and pushed, the image is then pulled into an 
 
 All the process is automated using GitLab CI/CD pipelines. 
 
+## Project Structure
 
-## 1. Hello World Flask App with Prometheus Metrics
+- **`eks-terraform/`**: Terraform configuration to provision the AWS EKS cluster.
+- **`monitoring-terraform/`**: Terraform configuration to provision the EC2 instance (including cloud-init file for installing prometheus and Grafana)
+- **`hello-prometheus/`**: Source code for the Python Flask application (Dockerfile, .py, and tests)
+- **`.gitlab-ci.yml`**: CI/CD pipeline definition for building testing and deploying the application to EKS
+
+---
+
+
+### 1. Hello World Flask App with Prometheus Metrics
 
 A simple Flask web application that prints "hello world sami" and exposes Prometheus metrics to monitor request counts and latency.
 
@@ -23,5 +32,7 @@ A simple Flask web application that prints "hello world sami" and exposes Promet
 - **Prometheus Metrics `/metrics`**:
   - `hello_world_requests_total` – Total number of requests to `/`.
   - `hello_world_request_latency_seconds` – Histogram measuring request processing time. (later visualized by Grafana)
+
+## 
 
   
