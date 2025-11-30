@@ -20,7 +20,7 @@ def hello_world():
     REQUEST_COUNT.inc()
     
     # Simulate processing (optional)
-    response_text = "hello world sami"
+    response_text = "hello world version 2"
     
     elapsed = time.time() - start_time
     REQUEST_LATENCY.observe(elapsed)
