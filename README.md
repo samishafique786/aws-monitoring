@@ -33,6 +33,24 @@ A simple Flask web application that prints "hello world sami" and exposes Promet
   - `hello_world_requests_total` – Total number of requests to `/`.
   - `hello_world_request_latency_seconds` – Histogram measuring request processing time. (later visualized by Grafana)
 
-## 
+## Cloud Infrastructure on AWS Managed by Terraform
+
+### 1. EKS Cluster (`/eks-terraform`)
+Provisions a Kubernetes cluster on AWS using the `terraform-aws-modules/eks/aws` module.
+- **Resources**: VPC, Subnets, EKS Cluster, Managed Node Groups, also an Elastic IP that is used later by the Python app to expose the app on a static IP.
+- **Region**: `eu-north-1`.
+
+### 2. Monitoring Server (`monitoring-terraform`)
+Provisions a standalone EC2 instance (`t3.small`) to monitor the infrastructure.
+- **Components Installed via Cloud-Init**:
+    - **Prometheus**: Scrapes metrics from itself and Node Exporter.
+    - **Grafana**: Visualization dashboard.
+    - **Node Exporter**: Exposes hardware and OS metrics.
+- **Access**:
+    - **Prometheus**: `http://<Public-IP>:9090`
+    - **Grafana**: `http://<Public-IP>:3000` default login was 'admin' for both username and pass. 
+    - **Node Exporter**: Port 9100 (Internal only).
+
+---
 
   
