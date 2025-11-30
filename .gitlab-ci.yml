@@ -45,16 +45,16 @@ build_and_push:
 
 deploy:
   stage: deploy
-  image: bitnami/kubectl:latest
+  image: bitnami/kubectl:1.27.3-debian-11-r0
   script:
-    # Install AWS CLI thats not included in the image
-    - apt-get update && apt-get install -y curl unzip
-    - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-    - unzip awscliv2.zip
-    - ./aws/install
-
-    # Authenticate to AWS
+    - apt-get update && apt-get install -y awscli sed
+    - aws version
+     # Authenticate to AWS
     - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+    - aws eks update-kubeconfig --name $EKS_CLUSTER_NAME --region $AWS_DEFAULT_REGION
+    - kubectl get pods
+
+   
     - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
     - aws configure set default.region $AWS_DEFAULT_REGION
 
